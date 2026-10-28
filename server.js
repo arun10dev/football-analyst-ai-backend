@@ -77,7 +77,7 @@ Only include a diagram when it adds real value. Keep all coordinates within pitc
 `;
 
    const response = await ai.chat.completions.create({
-  model: "llama-3.3-70b-versatile",
+ model: "openai/gpt-oss-120b",
   messages: [
     {
       role: "system",
