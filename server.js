@@ -76,16 +76,23 @@ Use team "home" or "away"; arrow type "run", "pass", or "press".
 Only include a diagram when it adds real value. Keep all coordinates within pitch boundaries.
 `;
 
-    const response = await ai.models.generateContent({
-      model: "gemini-3.8-flash",
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        temperature: 0.4
-      }
-    });
+   const response = await ai.chat.completions.create({
+  model: "llama-3.3-70b-versatile",
+  messages: [
+    {
+      role: "system",
+      content: "You are Football Analyst AI. Return only valid JSON."
+    },
+    {
+      role: "user",
+      content: prompt
+    }
+  ],
+  temperature: 0.4,
+  response_format: { type: "json_object" }
+});
 
-    const raw = response.text;
+const raw = response.choices[0]?.message?.content;
     if (!raw) throw new Error("The AI returned an empty response.");
 
     const result = JSON.parse(raw);
