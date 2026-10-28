@@ -1,8 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const { GoogleGenAI } = require("@google/genai");
-
+const Groq = require("groq-sdk");
 dotenv.config();
 
 const app = express();
@@ -12,8 +11,8 @@ app.use(cors());
 
 app.use(express.json({ limit: "20kb" }));
 
-const ai = process.env.GEMINI_API_KEY
-  ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
+const ai = process.env.GROQ_API_KEY
+  ? new Groq({ apiKey: process.env.GROQ_API_KEY })
   : null;
 
 app.get("/", (req, res) => {
